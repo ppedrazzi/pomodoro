@@ -17,6 +17,18 @@ if Meteor.isClient
 		timerStartValue: () ->
 			moment(Session.get("timerStartValue")).format('mm:ss')
 			
+		percentComplete: () ->
+			if Session.get("intervalId") > 0
+				#Base all on seconds.
+				tLeft = Session.get("timeRemaining")
+				tStart = Session.get("timerStartValue")
+				totalStartingSeconds = ( (tStart.getMinutes() * 60) + (tStart.getSeconds()) )
+				remainingSeconds = ( (tLeft.getMinutes() * 60) + (tLeft.getSeconds()) )
+				percentComplete = (totalStartingSeconds - remainingSeconds) / totalStartingSeconds
+				percentComplete.toFixed(2)
+			else
+				100
+			
 		alert: () ->
 			Session.get("alert")
 
