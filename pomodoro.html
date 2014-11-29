@@ -1,0 +1,17 @@
+<head>
+  <title>pomodoro</title>
+</head>
+
+<body>
+  <h1>Pomodoro Timer</h1>
+  {{> timer}}
+</body>
+
+<template name="timer">
+<p>Time Remaining: {{timeRemaining}}</p>
+<p>Timer Start Value: {{timerStartValue}}</p>
+<p>Alert is: {{alert}}</p>
+  <button id="start">Start</button>
+    <button id="pause">Pause</button>
+      <button id="cancel">Cancel</button>
+</template>
