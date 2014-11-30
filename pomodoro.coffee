@@ -1,6 +1,6 @@
 if Meteor.isClient
 	Meteor.startup () ->
-		dur = 1
+		dur = 25
 		time = new Date()
 		time.setMinutes(dur)
 		time.setSeconds(0)
