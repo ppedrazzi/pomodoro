@@ -4,15 +4,20 @@
 
 <body>
   <h1>Pomodoro Timer</h1>
+  {{> visualization}}
   {{> timer}}
 </body>
 
 <template name="timer">
-<p>Time Remaining: {{timeRemaining}}</p>
 <p>Timer Start Value: {{timerStartValue}}</p>
-<p>Percent Complete: {{percentComplete}}</p>
+<p>Percent Complete: {{percentComplete}}%</p>
 <p>Alert is: {{alert}}</p>
   <button id="start">Start</button>
     <button id="pause">Pause</button>
       <button id="cancel">Cancel</button>
+</template>
+
+<template name="visualization">
+	<div id="circle"></div>
+	{{timeRemaining}}
 </template>

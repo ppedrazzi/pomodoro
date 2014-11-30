@@ -1,19 +1,34 @@
 if Meteor.isClient
 	Meteor.startup () ->
-		dur = 25
+		dur = 1
 		time = new Date()
 		time.setMinutes(dur)
 		time.setSeconds(0)
 		Session.setDefault("timerStartValue", time)
 		Session.setDefault("timeRemaining", time)
+		Session.setDefault("amountRemaining", 0)
+		Session.setDefault("percentComplete", 0)
 		Session.setDefault("intervalId", 0)
 		Session.setDefault("alert", "none")
 		console.log "Client is Alive"
-		
-	Template.timer.helpers
+	
+	Tracker.autorun( () ->
+		$("#circle").circleProgress
+			value: (1 - Session.get("amountRemaining"))
+			animation: false
+			startAngle: 0
+			size: 200
+			fill:
+				gradient: [
+					"#ff1e41"
+					"#ff5f43"])
+
+
+	Template.visualization.helpers
 		timeRemaining: () ->
 			moment(Session.get("timeRemaining")).format('mm:ss')
-			
+		
+	Template.timer.helpers
 		timerStartValue: () ->
 			moment(Session.get("timerStartValue")).format('mm:ss')
 			
@@ -24,11 +39,12 @@ if Meteor.isClient
 				tStart = Session.get("timerStartValue")
 				totalStartingSeconds = ( (tStart.getMinutes() * 60) + (tStart.getSeconds()) )
 				remainingSeconds = ( (tLeft.getMinutes() * 60) + (tLeft.getSeconds()) )
-				percentComplete = (totalStartingSeconds - remainingSeconds) / totalStartingSeconds
-				percentComplete.toFixed(2)
+				amountComplete = (totalStartingSeconds - remainingSeconds) / totalStartingSeconds
+				Session.set("amountRemaining", amountComplete.toFixed(2))
+				Session.set("percentComplete", (amountComplete * 100).toFixed(0) )
+				Session.get("percentComplete")
 			else
-				100
-			
+				Session.get("percentComplete")
 		alert: () ->
 			Session.get("alert")
 
@@ -41,6 +57,7 @@ if Meteor.isClient
 					t2 = moment(t1).toDate()
 					Session.set("timeRemaining", t2)
 				else
+					Meteor.clearInterval(Session.get("intervalId"))
 					Session.set("alert", "Nice Job - Take a Break!")
 					
 			if Session.get("intervalId") is 0
@@ -51,14 +68,19 @@ if Meteor.isClient
 				console.log "Start button ignored - timer is running."
 			
 		"click #pause": () ->
-			Meteor.clearInterval(Session.get("intervalId"))
-			Session.set("intervalId", 0)
-			console.log "Pause button clicked."
+			if Session.get("intervalId") > 0
+				Meteor.clearInterval(Session.get("intervalId"))
+				Session.set("intervalId", 0)
+				console.log "Pause button clicked."
+			else
+				console.log "Clicked pause, but there is no interval."	
 
 		"click #cancel": () ->
 			Meteor.clearInterval(Session.get("intervalId"))
 			Session.set("intervalId", 0)
 			Session.set("timeRemaining", Session.get("timerStartValue"))
+			Session.set("amountRemaining", 0)
+			Session.set("percentComplete", 0)
 			console.log "Cancel button clicked."
 
 
