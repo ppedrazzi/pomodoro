@@ -13,7 +13,7 @@ if Meteor.isClient
 		console.log "Client is Alive"
 	
 	Tracker.autorun( () ->
-		$("#circle").circleProgress
+		$(".circle").circleProgress
 			value: (1 - Session.get("amountRemaining"))
 			animation: false
 			startAngle: 0
@@ -27,6 +27,9 @@ if Meteor.isClient
 	Template.visualization.helpers
 		timeRemaining: () ->
 			moment(Session.get("timeRemaining")).format('mm:ss')
+			
+		percentComplete: () ->
+			Session.get("percentComplete")
 		
 	Template.timer.helpers
 		timerStartValue: () ->

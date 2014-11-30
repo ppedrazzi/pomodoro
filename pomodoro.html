@@ -3,9 +3,11 @@
 </head>
 
 <body>
+<main>
   <h1>Pomodoro Timer</h1>
   {{> visualization}}
   {{> timer}}
+</main>
 </body>
 
 <template name="timer">
@@ -18,6 +20,8 @@
 </template>
 
 <template name="visualization">
-	<div id="circle"></div>
+	<div class="circle">
+		<strong>{{percentComplete}}<i>%</i></strong>
+	</div>
 	{{timeRemaining}}
 </template>

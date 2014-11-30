@@ -1,15 +1,33 @@
 /* CSS declarations go here */
-#circle-container {
-	position: relative;
+
+
+main {
+	background-color: #444;
+	padding-top: 40px;
+	font: 15px/1.3 Arial, sans-serif;
+	color: #fff;
+	text-align: center;
 	}
 
-#circle-counter {
-	font-size: 4em;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-    }
+#circle canvas {
+	vertical-align: top;
 }
+
+.circle {
+	width: 100px;
+	margin: 6px 6px 20px;
+	display: inline-block;
+	position: relative;
+	text-align: center;
+	line-height: 1.2;
+}
+
+.circle strong {
+	position: absolute;
+	top: 70px;
+	left: 50px;
+	width: 100%;
+	text-align: center;
+	line-height: 40px;
+	font-size: 30px;
+	}
