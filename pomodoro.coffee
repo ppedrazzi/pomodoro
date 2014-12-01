@@ -10,6 +10,10 @@ To Do for version 1
 8. Enable different backdrops (rain, forest)
 9. Enable different background noise (coffeehouse, rain, chill)
 10. Add Sharing buttons.
+
+Bugs
+1. Alert "x" does not close.
+2. At end, return controls to "start Timer" state.
 ###
 
 
