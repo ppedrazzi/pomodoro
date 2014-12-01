@@ -7,14 +7,31 @@
 </body>
 
 <template name="main">
-	<h1>Pomodoro Timer</h1>
-	{{> visualization}}
-	{{> timer}}
+	<div id="main">
+		<h1>Pomodoro Timer</h1>
+		{{> alert}}
+		{{> visualization}}
+		{{> timer}}
+		<hr>
+		{{> footer}}
+	</div>
 </template>
+
+<template name="alert">
+	{{#if finished}}
+	<div class="ui positive message">
+	  <i class="close icon"></i>
+	  <div class="header">
+	    {{alertHeader}}
+	  </div>
+	  <p>{{alertMessage}}</p>
+	</div>
+	{{/if}}
+</template>
+
 
 <template name="timer">
 	<p>Percent Complete: {{percentComplete}}%</p>
-	<p>Alert is: {{alert}}</p>
 	{{> timerControls}}
 </template>
 
@@ -36,5 +53,24 @@
 		<div id="start" class="ui positive button">Start Timer</div>
 	</div>
 	{{/if}}
+</template>
+
+
+<template name="footer">
+	{{> social}}
+</template>
+
+<template name="social">
+	<div>
+		<div class="ui circular facebook icon button">
+		  <i class="facebook icon"></i>
+		</div>
+		<div class="ui circular twitter icon button">
+		  <i class="twitter icon"></i>
+		</div>
+		<div class="ui circular google plus icon button">
+		  <i class="google plus icon"></i>
+		</div>
+	</div>
 </template>
 

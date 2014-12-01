@@ -1,26 +1,28 @@
 /* CSS declarations go here */
 
 
+#main {
+	width: 480px;
+	text-align: center;
+}
+
 
 #circle canvas {
 	vertical-align: top;
 }
 
 .circle {
-	width: 100px;
 	margin: 6px 6px 20px;
 	display: inline-block;
 	position: relative;
-	text-align: center;
 	line-height: 1.2;
 }
 
 .circle strong {
 	position: absolute;
-	top: 70px;
-	left: 50px;
+	top: 74px;
+	left: 0px;
 	width: 100%;
-	text-align: center;
 	line-height: 40px;
 	font-size: 30px;
 	}

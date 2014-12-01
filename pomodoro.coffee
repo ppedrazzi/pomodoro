@@ -1,3 +1,18 @@
+###
+To Do for version 1
+1. fix percentComplete helper on load.
+2. Add 5 minute rest periods.
+3. Add links to social sites.
+4. Fix on load of page to show the circle.
+5. Set up for viewing on mobile.
+6. Add sounds for ticker and finished.
+7. Store completed pomodoros.
+8. Enable different backdrops (rain, forest)
+9. Enable different background noise (coffeehouse, rain, chill)
+10. Add Sharing buttons.
+###
+
+
 if Meteor.isClient
 	Meteor.startup () ->
 		dur = 1
@@ -8,8 +23,8 @@ if Meteor.isClient
 		Session.setDefault("timeRemaining", time)
 		Session.setDefault("amountRemaining", 0)
 		Session.setDefault("percentComplete", 0)
-		Session.setDefault("intervalId", 0)
-		Session.setDefault("alert", "none")
+		Session.setDefault("intervalId", null)
+		Session.setDefault("alert", null)
 		console.log "Client is Alive"
 	
 	Tracker.autorun( () ->
@@ -25,25 +40,33 @@ if Meteor.isClient
 
 	Template.timerControls.helpers
 		interval: () ->
-			if Session.get("intervalId") is 0 
+			if Session.get("intervalId") is null
 				false
 			else
 				true
-
+				
+	Template.alert.helpers
+		alertHeader: () ->
+			Session.get("alert")
+			
+		alertMessage: () ->
+			"Congratulations!"
+			
+		finished: () ->
+			Session.get("alert")
+		
 	Template.visualization.helpers
 		timeRemaining: () ->
 			moment(Session.get("timeRemaining")).format('mm:ss')
-			
-		percentComplete: () ->
-			Session.get("percentComplete")
-		
+
 	Template.timer.helpers
 		timerStartValue: () ->
 			moment(Session.get("timerStartValue")).format('mm:ss')
 			
 		percentComplete: () ->
-			if Session.get("intervalId") > 0
-				#Base all on seconds.
+			if Session.get("intervalId") is null
+				Session.get("percentComplete")
+			else
 				tLeft = Session.get("timeRemaining")
 				tStart = Session.get("timerStartValue")
 				totalStartingSeconds = ( (tStart.getMinutes() * 60) + (tStart.getSeconds()) )
@@ -52,13 +75,11 @@ if Meteor.isClient
 				Session.set("amountRemaining", amountComplete.toFixed(2))
 				Session.set("percentComplete", (amountComplete * 100).toFixed(0) )
 				Session.get("percentComplete")
-			else
-				Session.get("percentComplete")
-		alert: () ->
-			Session.get("alert")
+					
 
 	Template.timer.events
 		"click #start": () ->
+			Session.set("alert", null)
 			countDown = () ->
 				t = Session.get("timeRemaining")
 				if ( t.getMinutes() + t.getSeconds() ) > 0
@@ -69,7 +90,7 @@ if Meteor.isClient
 					Meteor.clearInterval(Session.get("intervalId"))
 					Session.set("alert", "Nice Job - Take a Break!")
 					
-			if Session.get("intervalId") is 0
+			if Session.get("intervalId") is null
 				intervalId = Meteor.setInterval(countDown, 1000)
 				Session.set("intervalId", intervalId)
 				console.log "Start button clicked."
@@ -77,19 +98,20 @@ if Meteor.isClient
 				console.log "Start button ignored - timer is running."
 			
 		"click #pause": () ->
-			if Session.get("intervalId") > 0
-				Meteor.clearInterval(Session.get("intervalId"))
-				Session.set("intervalId", 0)
-				console.log "Pause button clicked."
-			else
+			if Session.get("intervalId") is null
 				console.log "Clicked pause, but there is no interval."	
+			else
+				Meteor.clearInterval(Session.get("intervalId"))
+				Session.set("intervalId", null)
+				console.log "Pause button clicked."
 
 		"click #cancel": () ->
 			Meteor.clearInterval(Session.get("intervalId"))
-			Session.set("intervalId", 0)
+			Session.set("intervalId", null)
 			Session.set("timeRemaining", Session.get("timerStartValue"))
 			Session.set("amountRemaining", 0)
 			Session.set("percentComplete", 0)
+			Session.set("alert", null)
 			console.log "Cancel button clicked."
 
 
