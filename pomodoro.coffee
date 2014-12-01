@@ -1,6 +1,6 @@
 if Meteor.isClient
 	Meteor.startup () ->
-		dur = 25
+		dur = 1
 		time = new Date()
 		time.setMinutes(dur)
 		time.setSeconds(0)
@@ -23,6 +23,12 @@ if Meteor.isClient
 					"#ff1e41"
 					"#ff5f43"])
 
+	Template.timerControls.helpers
+		interval: () ->
+			if Session.get("intervalId") is 0 
+				false
+			else
+				true
 
 	Template.visualization.helpers
 		timeRemaining: () ->

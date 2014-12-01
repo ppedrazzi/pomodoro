@@ -3,25 +3,38 @@
 </head>
 
 <body>
-<main>
-  <h1>Pomodoro Timer</h1>
-  {{> visualization}}
-  {{> timer}}
-</main>
+	{{> main}}
 </body>
 
+<template name="main">
+	<h1>Pomodoro Timer</h1>
+	{{> visualization}}
+	{{> timer}}
+</template>
+
 <template name="timer">
-<p>Timer Start Value: {{timerStartValue}}</p>
-<p>Percent Complete: {{percentComplete}}%</p>
-<p>Alert is: {{alert}}</p>
-  <button id="start">Start</button>
-    <button id="pause">Pause</button>
-      <button id="cancel">Cancel</button>
+	<p>Percent Complete: {{percentComplete}}%</p>
+	<p>Alert is: {{alert}}</p>
+	{{> timerControls}}
 </template>
 
 <template name="visualization">
 	<div class="circle">
-		<strong>{{percentComplete}}<i>%</i></strong>
+		<strong>{{timeRemaining}}</strong>
 	</div>
-	{{timeRemaining}}
 </template>
+
+<template name="timerControls">
+	{{#if interval}}
+	<div class="ui buttons">
+		<div id="pause" class="ui positive button">Pause</div>
+		<div class="or"></div>
+		<div id="cancel" class="ui button">Cancel</div>
+	</div>
+	{{else}}
+	<div class="ui buttons">
+		<div id="start" class="ui positive button">Start Timer</div>
+	</div>
+	{{/if}}
+</template>
+

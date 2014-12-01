@@ -1,13 +1,6 @@
 /* CSS declarations go here */
 
 
-main {
-	background-color: #444;
-	padding-top: 40px;
-	font: 15px/1.3 Arial, sans-serif;
-	color: #fff;
-	text-align: center;
-	}
 
 #circle canvas {
 	vertical-align: top;
