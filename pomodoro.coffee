@@ -1,15 +1,19 @@
 ###
-To Do for version 1
+
+v1
 1. fix percentComplete helper on load.
 2. Add 5 minute rest periods.
-3. Add links to social sites.
-4. Fix on load of page to show the circle.
+7. Store completed pomodoros.
+
+LATER
+4. Pull out pause for helper instead of resuing "start". (make discrete)
 5. Set up for viewing on mobile.
 6. Add sounds for ticker and finished.
-7. Store completed pomodoros.
 8. Enable different backdrops (rain, forest)
 9. Enable different background noise (coffeehouse, rain, chill)
 10. Add Sharing buttons.
+3. Add links to social sites.
+
 
 Bugs
 1. Alert "x" does not close.
@@ -29,6 +33,7 @@ if Meteor.isClient
 		Session.setDefault("percentComplete", 0)
 		Session.setDefault("intervalId", null)
 		Session.setDefault("alert", null)
+		Session.setDefault("paused", false)
 		console.log "Client is Alive"
 	
 	Tracker.autorun( () ->
@@ -49,6 +54,9 @@ if Meteor.isClient
 			else
 				true
 				
+		paused: () ->
+			if Session.get("paused") then true else false
+							
 	Template.alert.helpers
 		alertHeader: () ->
 			Session.get("alert")
@@ -58,6 +66,11 @@ if Meteor.isClient
 			
 		finished: () ->
 			Session.get("alert")
+				
+	Template.alert.events
+		'click .close': () ->
+			Session.set("alert", null)
+			console.log "clicked alert close icon."
 		
 	Template.visualization.helpers
 		timeRemaining: () ->
@@ -97,6 +110,7 @@ if Meteor.isClient
 			if Session.get("intervalId") is null
 				intervalId = Meteor.setInterval(countDown, 1000)
 				Session.set("intervalId", intervalId)
+				Session.set("paused", false)
 				console.log "Start button clicked."
 			else
 				console.log "Start button ignored - timer is running."
@@ -107,6 +121,7 @@ if Meteor.isClient
 			else
 				Meteor.clearInterval(Session.get("intervalId"))
 				Session.set("intervalId", null)
+				Session.set("paused", true)
 				console.log "Pause button clicked."
 
 		"click #cancel": () ->
@@ -116,6 +131,7 @@ if Meteor.isClient
 			Session.set("amountRemaining", 0)
 			Session.set("percentComplete", 0)
 			Session.set("alert", null)
+			Session.set("paused", false)
 			console.log "Cancel button clicked."
 
 

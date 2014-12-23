@@ -43,15 +43,27 @@
 
 <template name="timerControls">
 	{{#if interval}}
-	<div class="ui buttons">
-		<div id="pause" class="ui positive button">Pause</div>
-		<div class="or"></div>
-		<div id="cancel" class="ui button">Cancel</div>
-	</div>
+		{{#if paused}}
+		{{else}}
+			<div class="ui buttons">
+				<div id="pause" class="ui positive button">Pause</div>
+				<div class="or"></div>
+				<div id="cancel" class="ui button">Cancel</div>
+			</div>
+		{{/if}}
 	{{else}}
-	<div class="ui buttons">
-		<div id="start" class="ui positive button">Start Timer</div>
-	</div>
+		{{#if paused}}
+			<div class="ui buttons">
+				<div id="start" class="ui positive button">Resume</div>
+				<div class="or"></div>
+				<div id="cancel" class="ui button">Cancel</div>
+			</div>
+		{{else}}
+			<div class="ui buttons">
+				<div id="start" class="ui positive button">Start Timer</div>
+			</div>		
+		{{/if}}
+
 	{{/if}}
 </template>
 
