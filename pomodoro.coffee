@@ -8,11 +8,10 @@ v1
 LATER
 4. Pull out pause for helper instead of resuing "start". (make discrete)
 5. Set up for viewing on mobile.
-6. Add sounds for ticker and finished.
+6. Add sound for start and finished.
 8. Enable different backdrops (rain, forest)
-9. Enable different background noise (coffeehouse, rain, chill)
+9. Enable different background noise & volume slider (coffeehouse, rain, chill)
 10. Add Sharing buttons.
-3. Add links to social sites.
 
 
 Bugs
@@ -23,7 +22,7 @@ Bugs
 
 if Meteor.isClient
 	Meteor.startup () ->
-		dur = 1
+		dur = 25
 		time = new Date()
 		time.setMinutes(dur)
 		time.setSeconds(0)
